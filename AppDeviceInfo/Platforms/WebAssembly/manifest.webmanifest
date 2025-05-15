@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "AppDeviceInfo",
+  "display": "standalone",
+  "name": "AppDeviceInfo",
+  "short_name": "AppDeviceInfo",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

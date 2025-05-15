@@ -1,0 +1,54 @@
+﻿<Project Sdk="Uno.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-windows10.0.26100;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
+
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+
+    <!-- Display name -->
+    <ApplicationTitle>AppDeviceInfo</ApplicationTitle>
+    <!-- App Identifier -->
+    <ApplicationId>com.p42.AppDeviceInfo</ApplicationId>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>2.3</ApplicationDisplayVersion>
+    <ApplicationVersion>65535</ApplicationVersion>
+    <!-- Package Publisher -->
+    <ApplicationPublisher>ben</ApplicationPublisher>
+    <!-- Package Description -->
+    <Description>P42.AppDeviceInfo powered by Uno Platform.</Description>
+    <!--
+      If you encounter this error message:
+
+        error NETSDK1148: A referenced assembly was compiled using a newer version of Microsoft.Windows.SDK.NET.dll.
+        Please update to a newer .NET SDK in order to reference this assembly.
+
+      This means that the two packages below must be aligned with the "build" version number of
+      the "Microsoft.Windows.SDK.BuildTools" package above, and the "revision" version number
+      must be the highest found in https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref.
+    -->
+    <!-- <WindowsSdkPackageVersion>10.0.22621.28</WindowsSdkPackageVersion> -->
+
+    <!--
+      UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
+      https://aka.platform.uno/singleproject-features
+    -->
+    <UnoFeatures>
+      SkiaRenderer;
+      Toolkit;
+    </UnoFeatures>
+  </PropertyGroup>
+    
+    <PropertyGroup>
+        <InformationalVersion>$(ApplicationDisplayVersion).0.$(ApplicationVersion)</InformationalVersion>
+        <BuildNumber>202512315</BuildNumber>
+        <BuildNumberDivisor>$([MSBuild]::Divide($(BuildNumber), $([System.UInt16]::MaxValue)))</BuildNumberDivisor>
+        <BuildNumberModulus>$([MSBuild]::Modulo($(BuildNumber), $([System.UInt16]::MaxValue)))</BuildNumberModulus>
+        <AssemblyVersion>$(ApplicationDisplayVersion).$(BuildNumberDivisor).$(BuildNumberModulus)</AssemblyVersion>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="ObjectDumper.NET" />
+    </ItemGroup>
+
+    
+</Project>
