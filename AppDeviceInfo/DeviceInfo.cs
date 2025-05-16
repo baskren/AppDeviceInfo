@@ -231,6 +231,17 @@ internal static class DeviceInfo
                 
             }
             
+            if (System.OperatingSystem.IsWindows())
+            {
+                result += $"> wmic computersystem get manufacturer: ";
+                var data = ExecuteCommand("wmic computersystem get manufacturer");
+                result += "[" + data.Replace("\r", "").Replace("\n", "").Replace("Manufacturer", "").Trim() +"]\n";
+                result += $"> wmic computersystem get model: ";
+                data = ExecuteCommand("wmic computersystem get model\n");
+                result += "[" + data.Replace("\r", "").Replace("\n", "").Replace("Model", "").Trim() + "]\n";
+                result += "\n";
+            }
+
             if (System.OperatingSystem.IsLinux())
             {
                 result += $"> lsb_release -a\n";
@@ -240,19 +251,25 @@ internal static class DeviceInfo
             
             if (System.OperatingSystem.IsBrowser())
             {
-
                 var script = """
                              require([`${config.uno_app_base}/es5.js`], c => Bowser = c);
                              const browser = Bowser.getParser(window.navigator.userAgent);
                              JSON.stringify(browser.parse());
                              """;
-                
-                #if BROWSERWASM
+
+#if BROWSERWASM
+                //var userAgent = global::Uno.Foundation.WebAssemblyRuntime.InvokeJS("window.navigator.userAgent");
+                //result += $"UserAgent:{userAgent}";
                 result += "> Bowser.getParser(window.navigator.userAgent)\n";
                 var x = Uno.Foundation.WebAssemblyRuntime.InvokeJS(script);
                 var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(x);
+                var userAgent = dict["_ua"] as string;
+                result += $"User Agent: {userAgent}\n";
+
+                var parsedResults = dict["parsedResults"];
+                result += $"parsedResults.GetType(): [{parsedResults.GetType()}]";
                 result += JsonSerializer.Serialize(dict, options);
-                #endif
+#endif
                 result += "\n";
             }
             
@@ -288,8 +305,17 @@ internal static class DeviceInfo
         using (Process process = new Process())
         {
             // Configure the process
-            process.StartInfo.FileName = "/bin/bash";
-            process.StartInfo.Arguments = $"-c \"{command}\"";
+            if (OperatingSystem.IsWindows())
+            {
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.Arguments = $"/c {command}";
+            }
+            else
+            {
+                process.StartInfo.FileName = "/bin/bash";
+                process.StartInfo.Arguments = $"-c \"{command}\"";
+            }
+
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.UseShellExecute = false;
@@ -312,4 +338,6 @@ internal static class DeviceInfo
             return output;
         }
     }
+
+
 }
