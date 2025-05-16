@@ -9,3 +9,4 @@ var host = UnoPlatformHostBuilder.Create()
     .Build();
 
 await host.RunAsync();
+

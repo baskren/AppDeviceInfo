@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Uno.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-windows10.0.26100;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
+    <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-windows10.0.26100;net9.0-browserwasm;net9.0-desktop;net9.0-maccatalyst</TargetFrameworks>
 
     <OutputType>Exe</OutputType>
     <UnoSingleProject>true</UnoSingleProject>
@@ -37,7 +37,7 @@
       Toolkit;
     </UnoFeatures>
   </PropertyGroup>
-    
+
     <PropertyGroup>
         <InformationalVersion>$(ApplicationDisplayVersion).0.$(ApplicationVersion)</InformationalVersion>
         <BuildNumber>202512315</BuildNumber>
@@ -45,10 +45,13 @@
         <BuildNumberModulus>$([MSBuild]::Modulo($(BuildNumber), $([System.UInt16]::MaxValue)))</BuildNumberModulus>
         <AssemblyVersion>$(ApplicationDisplayVersion).$(BuildNumberDivisor).$(BuildNumberModulus)</AssemblyVersion>
     </PropertyGroup>
-    
+
     <ItemGroup>
       <PackageReference Include="ObjectDumper.NET" />
+        <EmbeddedResource Include="Platforms\WebAssembly\WasmScripts\es5.js" />
+        <EmbeddedResource Include="Platforms\WebAssembly\WasmScripts\GetBrowser.js" />
     </ItemGroup>
 
-    
+
+
 </Project>
