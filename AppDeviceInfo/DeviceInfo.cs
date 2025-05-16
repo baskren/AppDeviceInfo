@@ -74,6 +74,11 @@ internal static class DeviceInfo
         try
         {
             result += "DEFINE: \n";
+            
+            #if DESKTOP
+            result += "\t DESKTOP\n";
+            #endif
+            
             #if HAS_UNO_SKIA
             result += "\t HAS_UNO_SKIA\n";
             #endif
@@ -96,7 +101,7 @@ internal static class DeviceInfo
             
             #if WINDOWS
             result += "\t WINDOWS\n";
-#endif
+            #endif
             
             #if HAS_UNO_SKIA_WIN32
             result += "\t HAS_UNO_SKIA_WIN32\n";
@@ -120,23 +125,24 @@ internal static class DeviceInfo
             
             #if HAS_UNO_SKIA_ANDROID
             result += "\t HAS_UNO_SKIA_ANDROID\n";
-#endif  
+            #endif  
             
             #if HAS_UNO_SKIA_IOS
             result += "\t HAS_UNO_SKIA_IOS\n";
-#endif
+            #endif
+            
             #if HAS_UNO_SKIA_TVOS
             result += "\t HAS_UNO_SKIA_TVOS\n";
-#endif
+            #endif
             #if HAS_UNO_SKIA_WATCHOS
             result += "\t HAS_UNO_SKIA_WATCHOS\n";
-#endif
+            #endif
             #if HAS_UNO_SKIA_LINUX
             result += "\t HAS_UNO_SKIA_LINUX\n";
-#endif
+            #endif
             #if HAS_UNO_SKIA_LINUX_X11
             result += "\t HAS_UNO_SKIA_LINUX_X11\n";
-#endif
+            #endif
             
             #if __MACCATALYST__
             result += "\t __MACCATALYST__\n";
@@ -148,27 +154,27 @@ internal static class DeviceInfo
             
             #if __TVOS__
             result += "\t __TVOS__\n";
-#endif
+            #endif
             #if __WATCHOS__
             result += "\t __WATCHOS__\n";
-#endif
+            #endif
             #if __ANDROID__
             result += "\t __ANDROID__\n";
-#endif
+            #endif
             
             #if __WINDOWS__
             result += "\t __WINDOWS__\n";
-#endif
+            #endif
             #if __SKIA__
             result += "\t __SKIA__\n";
-#endif
+            #endif
             #if MACCATALYST
             result += "\t MACCATALYST\n";
             #endif
             
             #if MACOS
             result += "\t MACOS\n";
-#endif
+            #endif
             
             //result += JsonSerializer.Serialize(deviceInfo, options);
             //result += JsonSerializer.Serialize(Windows.System.Profile.AnalyticsInfo.VersionInfo);
