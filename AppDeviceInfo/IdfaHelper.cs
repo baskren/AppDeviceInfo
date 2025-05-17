@@ -38,9 +38,9 @@ public class IdfaHelper
         }
 
         // Get the IDFA using ASIdentifierManager
-        return ASIdentifierManager.SharedManager.AdvertisingIdentifier.AsString();;
+        return ASIdentifierManager.SharedManager.AdvertisingIdentifier.AsString();
 
-3    }
+    }
 }
 
 #endif

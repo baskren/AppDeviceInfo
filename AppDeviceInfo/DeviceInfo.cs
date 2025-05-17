@@ -281,7 +281,15 @@ internal static class DeviceInfo
                 result += "\n";
             }
             
-            
+            #if __MACCATALYST__ || __IOS__ || __TVOS__ || __WATCHOS__
+            result += "UIKit.UIDevice.CurrentDevice.Model: " + UIKit.UIDevice.CurrentDevice.Model + "\n";
+            result += "UIKit.UIDevice.CurrentDevice.Name: " + UIKit.UIDevice.CurrentDevice.Name + "\n";
+            result += "UIKit.UIDevice.CurrentDevice.IdentifierForVendor: " + UIKit.UIDevice.CurrentDevice.IdentifierForVendor.AsString() + "\n";
+            result += "UIKit.UIDevice.CurrentDevice.SystemName: " + UIKit.UIDevice.CurrentDevice.SystemName + "\n";
+            result += "UIKit.UIDevice.CurrentDevice.SystemVersion: " + UIKit.UIDevice.CurrentDevice.SystemVersion + "\n";
+            result += "UIKit.UIDevice.CurrentDevice.UserInterfaceIdiom: " + UIKit.UIDevice.CurrentDevice.UserInterfaceIdiom + "\n";
+            result += "ObjCRuntime.Runtime.Arch == ObjCRuntime.Arch.SIMULATOR: " + (ObjCRuntime.Runtime.Arch == ObjCRuntime.Arch.SIMULATOR) + "\n";
+#endif
         }
         catch (Exception ex)
         {
