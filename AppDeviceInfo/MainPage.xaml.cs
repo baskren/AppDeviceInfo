@@ -13,10 +13,10 @@ public sealed partial class MainPage : Page
         //MainPage_Loaded(null,null);
     }
 
-    private void MainPage_Loaded(object sender, RoutedEventArgs e)
+    private async void MainPage_Loaded(object sender, RoutedEventArgs e)
     {
         // textBlock.Text = AppInfo.Get();
-        textBlock.Text = DeviceInfo.Get();
+        textBlock.Text = await DeviceInfo.GetAsync();
     }
 
     private void refreshButton_Click(object sender, RoutedEventArgs e)

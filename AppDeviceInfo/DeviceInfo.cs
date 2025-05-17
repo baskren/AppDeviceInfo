@@ -34,7 +34,7 @@ internal static class DeviceInfo
     }
 
 
-    public static string Get()
+    public static async Task<string> GetAsync()
     {
         var output = new StringBuilder();
 
@@ -227,9 +227,17 @@ internal static class DeviceInfo
                 result += $"> system_profiler SPHardwareDataType\n";
                 result += ExecuteCommand("system_profiler -json SPHardwareDataType");
                 result += "\n";
-                
-                
             }
+
+            #if ANDROID
+                result += "> Android Advertising ID: ";
+                result += await GetAdvertisingIdAsync() + "\n";
+            #endif
+            
+            #if __IOS__
+                result += "> iOS Advertising ID: ";
+                result += await IdfaHelper.GetAdvertiserIdAsync() + "\n";
+            #endif
             
             if (System.OperatingSystem.IsWindows())
             {
@@ -339,5 +347,47 @@ internal static class DeviceInfo
         }
     }
 
+#if ANDROID
+    
+    static Task<string> GetAdvertisingIdAsync()
+    {
+        var isPlayServicesAvailable = Android.Gms.Common.GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(Android.App.Application.Context) == Android.Gms.Common.ConnectionResult.Success;
 
+        if (!isPlayServicesAvailable)
+        {
+            System.Diagnostics.Debug.WriteLine("AdvertisingID : Google Play Services not available.");
+            return Task.FromResult("google play services available");
+        }
+
+        var task = Task.Run(() =>
+        {
+            try
+            {
+                // Fetch Advertising ID Info
+                var adInfo =
+                    Google.Ads.Identifier.AdvertisingIdClient.GetAdvertisingIdInfo(Android.App.Application.Context);
+
+                // Get the Advertising ID
+                var advertisingId = adInfo.Id;
+
+                // Check if user has opted out of tracking
+                var isTrackingLimited = adInfo.IsLimitAdTrackingEnabled;
+                if (isTrackingLimited)
+                {
+                    System.Diagnostics.Debug.WriteLine("AdvertisingID : User has limited ad tracking enabled.");
+                }
+
+                return advertisingId;
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"AdvertisingID : Error fetching Advertising ID: {ex.Message}");
+                return null;
+            }
+        });
+
+        return task;
+    }
+
+#endif
 }

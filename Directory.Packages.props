@@ -8,6 +8,8 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="ObjectDumper.NET" Version="4.3.2" />
+      <PackageVersion Include="ObjectDumper.NET" Version="4.3.2" />
+      <PackageVersion Include="Xamarin.GooglePlayServices.Ads.Identifier" Version="118.2.0.2" />
+      <PackageVersion Include="Xamarin.AndroidX.Activity" Version="1.10.1.1" />
   </ItemGroup>
 </Project>

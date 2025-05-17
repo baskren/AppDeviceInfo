@@ -47,9 +47,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="ObjectDumper.NET" />
+        <PackageReference Include="ObjectDumper.NET" />
         <EmbeddedResource Include="Platforms\WebAssembly\WasmScripts\es5.js" />
         <EmbeddedResource Include="Platforms\WebAssembly\WasmScripts\GetBrowser.js" />
+        <PackageReference Condition="$(TargetFramework.Contains('-android'))" Include="Xamarin.GooglePlayServices.Ads.Identifier"  />
+        <PackageReference Condition="$(TargetFramework.Contains('-android'))" Include="Xamarin.AndroidX.Activity"  />
     </ItemGroup>
 
 
